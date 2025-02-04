@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Liste des Équipes</h1>
+
+    <ul>
+        {% for team in teams %}
+            <li>{{ team.name }} - Budget: {{ team.budget }}€ - Réputation: {{ team.reputation }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Créer une nouvelle équipe</h2>
+    <form action="{{ path('team_create') }}" method="post">
+        <input type="text" name="name" placeholder="Nom de l'équipe" required>
+        <button type="submit">Créer</button>
+    </form>
+    {% for team in teams %}
+    <li>
+        {{ team.name }} - Budget: {{ team.budget }}€ - Réputation: {{ team.reputation }}
+        <h3>Pilotes :</h3>
+        <ul>
+            {% for rider in team.riders %}
+                <li>{{ rider.name }} - Niveau: {{ rider.level }}</li>
+            {% endfor %}
+        </ul>
+        
+        <h4>Ajouter un pilote</h4>
+        <form action="{{ path('rider_create') }}" method="post">
+            <input type="text" name="name" placeholder="Nom du pilote" required>
+            <input type="hidden" name="team_id" value="{{ team.id }}">
+            <button type="submit">Ajouter</button>
+        </form>
+    </li>
+{% endfor %}
+
+{% endblock %}
